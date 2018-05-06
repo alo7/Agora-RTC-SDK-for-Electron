@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "cross-env": "^5.1.4",
+    "fs-extra": "^6.0.0",
     "node-gyp": "^3.6.2"
   }
 }
