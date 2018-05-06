@@ -5,8 +5,9 @@ const _arch = process.env.ARCH || process.arch;
 const processPlatform = process.platform === 'darwin' ? 'mac' : 'win';
 const _platform = process.env.PLATFORM || processPlatform;
 
-function validateSymAndPost(name) {
-  const symbolFileName = _platform === 'win' ? `${name}.pdb` : `${name}.sym`;
+function validateSymAndPost(name, isAddon) {
+  const symbolFileName =
+    _platform === 'win' ? `${name}.pdb` : `${name}${isAddon ? '.node' : ''}.sym`;
   const symbolFile = `./lib/symbol/${_platform}/${_arch}/${symbolFileName}`;
   const symbols = fs.readFileSync(symbolFile).toString();
   const headLine = symbols.substr(0, symbols.indexOf('\n'));
@@ -26,5 +27,5 @@ function validateSymAndPost(name) {
   console.log(`post symbol file to backtrace: ${symbolFile}`);
 }
 
-validateSymAndPost('agora_node_ext.node');
-validateSymAndPost('VideoSource');
+validateSymAndPost('agora_node_ext', true);
+validateSymAndPost('VideoSource', false);
