@@ -148,7 +148,8 @@
                     'MACOSX_DEPLOYMENT_TARGET': '10.13',
                     'FRAMEWORK_SEARCH_PATHS': [
                     './sdk/lib/mac'
-                    ]
+                    ],
+                    'DEBUG_INFORMATION_FORMAT': 'dwarf-with-dsym', # 产生 dsym 文件,用来查看 dump
                 },
 
             }
@@ -300,13 +301,14 @@
                 'defines!': [
                     '_NOEXCEPT',
                     '-std=c++11'
-                ],	
+                ],
                 'xcode_settings': {
                     'MACOSX_DEPLOYMENT_TARGET': '10.11',
                     'EXECUTABLE_EXTENSION': 'node',
                     'FRAMEWORK_SEARCH_PATHS': [
                     './sdk/lib/mac'
-                    ]
+                    ],
+                    'DEBUG_INFORMATION_FORMAT': 'dwarf-with-dsym', # 产生 dsym 文件,用来查看 dump
                 },
             }
             ]

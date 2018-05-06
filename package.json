@@ -6,7 +6,14 @@
   "author": {
     "name": "Alex"
   },
-  "config": {
-    "arch": "ia32"
+  "scripts": {
+    "build:mac": "cross-env DEBUG=true PLATFORM=mac ARCH=x64 node ./script/addon-build.js",
+    "build:win": "cross-env DEBUG=true PLATFORM=win ARCH=ia32 node ./script/addon-build.js",
+    "post-sym:mac": "cross-env PLATFORM=mac ARCH=x64 node ./script/post-addon-sym.js",
+    "post-sym:win": "cross-env PLATFORM=win ARCH=ia32 node ./script/post-addon-sym.js"
+  },
+  "devDependencies": {
+    "cross-env": "^5.1.4",
+    "node-gyp": "^3.6.2"
   }
 }
