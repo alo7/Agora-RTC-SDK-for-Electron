@@ -60,6 +60,6 @@ if (_platform === 'mac') {
     fs.mkdirpSync(destPath);
     fs.copyFileSync(symFile, path.join(destPath, `${name}.pdb`));
   }
-  copyPdbFIle(addon_name);
+  copyPdbFIle('agora_node_ext');
   copyPdbFIle(video_source_name);
 }
