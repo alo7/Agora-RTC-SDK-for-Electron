@@ -314,5 +314,29 @@
             ]
 		]
       },
+      {
+        # 复制编译好的 node 文件到指定目录
+        "target_name": "action_after_build",
+        "type": "none",
+        "dependencies": [ "VideoSource" ],
+        "copies": [
+          {
+            "files": [ "<(PRODUCT_DIR)/VideoSource" ],
+            "destination": "<(module_root_dir)/lib/binding/<(OS)/<(target_arch)"# 来自 package.json
+          }
+        ]
+      },
+      {
+        # 复制编译好的 node 文件到指定目录
+        "target_name": "action_after_build2",
+        "type": "none",
+        "dependencies": [ "agora_node_ext" ],
+        "copies": [
+          {
+            "files": [ "<(PRODUCT_DIR)/agora_node_ext.node" ],
+            "destination": "<(module_root_dir)/lib/binding/<(OS)/<(target_arch)"# 来自 package.json
+          }
+        ]
+      }
     ]
   }

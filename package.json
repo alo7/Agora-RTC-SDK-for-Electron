@@ -10,7 +10,8 @@
     "build:mac": "cross-env DEBUG=true PLATFORM=mac ARCH=x64 node ./script/addon-build.js",
     "build:win": "cross-env DEBUG=true PLATFORM=win ARCH=ia32 node ./script/addon-build.js",
     "post-sym:mac": "cross-env PLATFORM=mac ARCH=x64 node ./script/post-addon-sym.js",
-    "post-sym:win": "cross-env PLATFORM=win ARCH=ia32 node ./script/post-addon-sym.js"
+    "post-sym:win": "cross-env PLATFORM=win ARCH=ia32 node ./script/post-addon-sym.js",
+    "setLocalNVM": "node script/set-nvm.js"
   },
   "devDependencies": {
     "cross-env": "^5.1.4",
