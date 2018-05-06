@@ -19,7 +19,7 @@ function validateSymAndPost(name) {
   // post to backtrace
   const postUrl =
     _platform === 'win'
-      ? 'https://alo7.sp.backtrace.io:6098/post?format=symbols&token=d91fb5cc0c786273a7de2a16453211c2f5bdbea356fc20c7d56ac4de811162c0&upload_file=alo7-portal.pdb'
+      ? `https://alo7.sp.backtrace.io:6098/post?format=symbols&token=d91fb5cc0c786273a7de2a16453211c2f5bdbea356fc20c7d56ac4de811162c0&upload_file=${name}.pdb`
       : 'https://alo7.sp.backtrace.io:6098/post?format=symbols&token=d91fb5cc0c786273a7de2a16453211c2f5bdbea356fc20c7d56ac4de811162c0';
   console.log(`curl -v --data-binary @${symbolFile} "${postUrl}"`);
   execSync(`curl -v --data-binary @${symbolFile} "${postUrl}"`);
