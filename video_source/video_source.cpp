@@ -250,7 +250,7 @@ void AgoraVideoSource::onMessage(unsigned int msg, char* payload, unsigned int l
             return;
         SetParameterCmd *cmd = (SetParameterCmd*)payload;
         agora::rtc::AParameter rep(m_rtcEngine.get());
-        rep->setParameters(cmd->parameters);        
+        rep->setParameters(cmd->parameters);
     }
     LOG_LEAVE;
 }
@@ -279,7 +279,7 @@ void AgoraVideoSource::run()
         LOG_LEAVE;
         return;
     }
-    m_process.reset(INodeProcess::OpenNodeProcess(std::atoi(idstr.c_str())));
+    m_process.reset(INodeProcess::OpenNodeProcess(atoi(idstr.c_str())));
     if (!m_process.get()){
         LOG_ERROR("Process open fail.\n");
         LOG_LEAVE;
