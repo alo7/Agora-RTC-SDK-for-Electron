@@ -1,21 +1,64 @@
 {
-  "name": "electron-demon",
-  "version": "0.0.0",
-  "description": "electron-demon",
-  "main": "app.js",
-  "author": {
-    "name": "Alex"
+  "name": "agora-electron-sdk",
+  "jest": {
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": [
+      "/__tests__/utils/"
+    ]
   },
+  "version": "2.2.1-rc.1",
+  "description": "agora-electron-sdk",
+  "main": "js/AgoraSdk.js",
+  "author": "agora.io",
   "scripts": {
     "build:mac": "cross-env DEBUG=true PLATFORM=mac ARCH=x64 node ./script/addon-build.js",
     "build:win": "cross-env DEBUG=true PLATFORM=win ARCH=ia32 node ./script/addon-build.js",
     "post-sym:mac": "cross-env PLATFORM=mac ARCH=x64 node ./script/post-addon-sym.js",
     "post-sym:win": "cross-env PLATFORM=win ARCH=ia32 node ./script/post-addon-sym.js",
-    "setLocalNVM": "node script/set-nvm.js"
+    "setLocalNVM": "node script/set-nvm.js",
+    "install": "npm run download",
+    "build:node": "node ./scripts/build.js --runtime=node",
+    "build:electron": "node ./scripts/build.js --runtime=electron",
+    "debug": "node ./scripts/debug.js",
+    "download": "node ./scripts/download.js",
+    "lint": "eslint .",
+    "format": "eslint . --fix ",
+    "test": "npm run build:node && jest",
+    "quicktest": "jest"
+  },
+  "gypfile": true,
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "download": "^7.1.0",
+    "node-gyp": "^3.6.2",
+    "optimist": "^0.6.1",
+    "ora": "^2.1.0",
+    "shelljs": "^0.8.2"
   },
   "devDependencies": {
-    "cross-env": "^5.1.4",
-    "fs-extra": "^6.0.0",
-    "node-gyp": "^3.6.2"
-  }
+    "eslint": "^4.19.1",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-config-xo": "^0.22.2",
+    "eslint-plugin-prettier": "^2.6.0",
+    "jest": "^23.1.0",
+    "prettier": "^1.13.4"
+  },
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AgoraIO-Community/Agora-RTC-SDK-for-Electron.git"
+  },
+  "keywords": [
+    "electron",
+    "agora",
+    "sdk",
+    "native"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AgoraIO-Community/Agora-RTC-SDK-for-Electron/issues"
+  },
+  "homepage": "https://github.com/AgoraIO-Community/Agora-RTC-SDK-for-Electron#readme"
 }
