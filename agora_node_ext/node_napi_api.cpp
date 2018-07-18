@@ -174,7 +174,7 @@ int NodeVideoFrameTransporter::deliverFrame_I420(NodeRenderType type, agora::rtc
     rotation = rotation < 0 ? rotation + 360 : rotation;
     std::lock_guard<std::mutex> lck(m_lock);
     VideoFrameInfo& info = getVideoFrameInfo(type, uid);
-    int destWidth = info.m_destWidth ? info.m_destWidth : videoFrame.width();
+    int destWidth = info.m_destWidth ? info.m_destWidth : stride;// videoFrame.width();
     int destHeight = info.m_destHeight ? info.m_destHeight : videoFrame.height();
     size_t imageSize = sizeof(image_header_type) + destWidth * destHeight * 3 / 2;
     auto s = info.m_buffer.size();
@@ -323,9 +323,11 @@ void NodeVideoFrameTransporter::FlushVideo()
     while (!m_stopFlag) {
         {
             std::unique_lock<std::mutex> lck(m_lock);
-            for (auto& it : m_remoteVideoFrames) {
-                if (it.second.m_count > MAX_MISS_COUNT)
-                    m_remoteVideoFrames.erase(it.first);
+            for (auto it = m_remoteVideoFrames.begin(); it != m_remoteVideoFrames.end();) {
+                if (it->second.m_count > MAX_MISS_COUNT)
+                    it = m_remoteVideoFrames.erase(it);
+                else
+                    ++it;
             }
 
             if (m_devTestVideoFrame.get()  && m_localVideoFrame->m_count > MAX_MISS_COUNT) {
@@ -377,9 +379,11 @@ void NodeVideoFrameTransporter::highFlushVideo()
     while (!m_stopFlag) {
         {
             std::unique_lock<std::mutex> lck(m_lock);
-            for (auto& it : m_remoteHighVideoFrames) {
-                if (it.second.m_count > MAX_MISS_COUNT)
-                    m_remoteHighVideoFrames.erase(it.first);
+            for (auto it = m_remoteHighVideoFrames.begin(); it != m_remoteHighVideoFrames.end();) {
+                if (it->second.m_count > MAX_MISS_COUNT)
+                    it = m_remoteHighVideoFrames.erase(it);
+                else
+                    ++it;
             }
 
             if (m_videoSourceVideoFrame.get() && m_videoSourceVideoFrame->m_count > MAX_MISS_COUNT)
