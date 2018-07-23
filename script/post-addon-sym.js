@@ -9,6 +9,8 @@ function validateSymAndPost(name, isAddon) {
   const symbolFileName =
     _platform === 'win' ? `${name}.pdb` : `${name}${isAddon ? '.node' : ''}.sym`;
   const symbolFile = `./lib/symbol/${_platform}/${_arch}/${symbolFileName}`;
+
+  // todo 有两个 symbol~~~
   const symbols = fs.readFileSync(symbolFile).toString();
   const headLine = symbols.substr(0, symbols.indexOf('\n'));
   console.log(`L1: ${headLine}`);
