@@ -41,6 +41,7 @@
     "eslint-config-prettier": "^2.9.0",
     "eslint-config-xo": "^0.22.2",
     "eslint-plugin-prettier": "^2.6.0",
+    "fs-extra": "^7.0.0",
     "jest": "^23.1.0",
     "prettier": "^1.13.4"
   },
