@@ -102,6 +102,7 @@ void NodeRtcEngine::Init(Local<Object> &module)
   PROPERTY_METHOD_DEFINE(startScreenCapture)
   PROPERTY_METHOD_DEFINE(stopScreenCapture)
   PROPERTY_METHOD_DEFINE(updateScreenCaptureRegion)
+  PROPERTY_METHOD_DEFINE(updateScreenCaptureRegion2)
   PROPERTY_METHOD_DEFINE(setLogFile)
   PROPERTY_METHOD_DEFINE(setLogFilter)
   PROPERTY_METHOD_DEFINE(setLocalVideoMirrorMode)
@@ -2415,6 +2416,39 @@ NAPI_API_DEFINE(NodeRtcEngine, updateScreenCaptureRegion)
     right = rightValue->Int32Value();
     Rect region(top, left, bottom, right);
     pEngine->m_engine->updateScreenCaptureRegion(&region);
+  } while (false);
+  LOG_LEAVE;
+}
+
+NAPI_API_DEFINE(NodeRtcEngine, updateScreenCaptureRegion2)
+{
+  LOG_ENTER;
+  do
+  {
+    NodeRtcEngine *pEngine = nullptr;
+    napi_get_native_this(args, pEngine);
+    CHECK_NATIVE_THIS(pEngine);
+
+    int top, left, bottom, right;
+    Local<Object> rect = args[0]->ToObject(args.GetIsolate());
+    Local<Name> topKey = String::NewFromUtf8(args.GetIsolate(), "top", NewStringType::kInternalized).ToLocalChecked();
+    Local<Value> topValue = rect->Get(args.GetIsolate()->GetCurrentContext(), topKey).ToLocalChecked();
+    top = topValue->Int32Value();
+
+    Local<Name> leftKey = String::NewFromUtf8(args.GetIsolate(), "left", NewStringType::kInternalized).ToLocalChecked();
+    Local<Value> leftValue = rect->Get(args.GetIsolate()->GetCurrentContext(), leftKey).ToLocalChecked();
+    left = leftValue->Int32Value();
+
+    Local<Name> bottomKey = String::NewFromUtf8(args.GetIsolate(), "bottom", NewStringType::kInternalized).ToLocalChecked();
+    Local<Value> bottomValue = rect->Get(args.GetIsolate()->GetCurrentContext(), bottomKey).ToLocalChecked();
+    bottom = bottomValue->Int32Value();
+
+    Local<Name> rightKey = String::NewFromUtf8(args.GetIsolate(), "right", NewStringType::kInternalized).ToLocalChecked();
+    Local<Value> rightValue = rect->Get(args.GetIsolate()->GetCurrentContext(), rightKey).ToLocalChecked();
+    right = rightValue->Int32Value();
+    Rect region(top, left, bottom, right);
+    if (pEngine->m_videoSourceSink.get())
+      pEngine->m_videoSourceSink->updateScreenCapture(&region);
   } while (false);
   LOG_LEAVE;
 }

@@ -5,3 +5,4 @@ lib/
 .vscode/
 error-log.txt
 package-lock.json
+bin/

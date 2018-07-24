@@ -163,6 +163,7 @@ namespace agora {
             NAPI_API(startScreenCapture);
             NAPI_API(stopScreenCapture);
             NAPI_API(updateScreenCaptureRegion);
+            NAPI_API(updateScreenCaptureRegion2);
 #endif
             NAPI_API(setLogFile);
             NAPI_API(setLogFilter);

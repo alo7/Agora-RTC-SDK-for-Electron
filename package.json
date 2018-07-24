@@ -24,7 +24,8 @@
     "lint": "eslint .",
     "format": "eslint . --fix ",
     "test": "npm run build:node && jest",
-    "quicktest": "jest"
+    "quicktest": "jest",
+    "debug:xcode": "node-gyp configure -- -f xcode && open build/binding.xcodeproj"
   },
   "gypfile": true,
   "dependencies": {
