@@ -326,12 +326,30 @@
         "target_name": "action_after_build",
         "type": "none",
         "dependencies": [ "VideoSource" ],
-        "copies": [
+        'conditions': [
+          [
+          'OS=="win"',
           {
-            "files": [ "<(PRODUCT_DIR)/VideoSource" ],
-            "destination": "<(module_root_dir)/lib/binding/<(OS)/<(target_arch)"# 来自 package.json
+            "copies": [
+              {
+                "files": [ "<(PRODUCT_DIR)/VideoSource.exe" ],
+                "destination": "<(module_root_dir)/lib/binding/<(OS)/<(target_arch)"# 来自 package.json
+              }
+            ]
           }
-        ]
+          ],
+            [
+            'OS=="mac"',
+            {
+              "copies": [
+                  {
+                    "files": [ "<(PRODUCT_DIR)/VideoSource.exe" ],
+                    "destination": "<(module_root_dir)/lib/binding/<(OS)/<(target_arch)"# 来自 package.json
+                  }
+                ]
+            }
+            ]
+		]
       },
       {
         # 复制编译好的 node 文件到指定目录
