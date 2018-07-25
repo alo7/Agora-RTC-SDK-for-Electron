@@ -332,7 +332,7 @@
           {
             "copies": [
               {
-                "files": [ "<(PRODUCT_DIR)/VideoSource.exe" ],
+                "files": [ "<(PRODUCT_DIR)/VideoSource.exe","<(PRODUCT_DIR)/agora_rtc_sdk.dll","<(PRODUCT_DIR)/agora_sig_sdk.dll" ],
                 "destination": "<(module_root_dir)/lib/binding/<(OS)/<(target_arch)"# 来自 package.json
               }
             ]
@@ -343,7 +343,7 @@
             {
               "copies": [
                   {
-                    "files": [ "<(PRODUCT_DIR)/VideoSource.exe" ],
+                    "files": [ "<(PRODUCT_DIR)/VideoSource" ],
                     "destination": "<(module_root_dir)/lib/binding/<(OS)/<(target_arch)"# 来自 package.json
                   }
                 ]

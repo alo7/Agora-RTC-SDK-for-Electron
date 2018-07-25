@@ -218,6 +218,10 @@ void AgoraVideoSource::onMessage(unsigned int msg, char *payload, unsigned int l
       rep.enableLocalVideo(false);
     }
   }
+  else if(msg == AGORA_IPC_UPDATE_CAPTURE_SCREEN)
+  {
+      m_rtcEngine->updateScreenCaptureRegion((const agora::rtc::Rect *)payload);
+  }
   else if (msg == AGORA_IPC_STOP_CAPTURE_SCREEN)
   {
     m_rtcEngine->stopScreenCapture();
