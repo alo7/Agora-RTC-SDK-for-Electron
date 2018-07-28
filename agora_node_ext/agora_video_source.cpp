@@ -62,6 +62,7 @@ namespace agora{
             virtual node_error stopPreview() override;
             virtual node_error enableWebSdkInteroperability(bool enabled) override;
             virtual void setParameters(const char* parameters) override;
+            virtual node_error setLogFile(const char* path) override;
         private:
             void msgThread();
             void deliverFrame(const char* payload, int len);
@@ -235,7 +236,7 @@ namespace agora{
             m_ipcReceiver.reset();
             return m_ipcMsg->sendMessage(AGORA_IPC_STOP_VS_PREVIEW, nullptr, 0) ? node_ok : node_generic_error;
         }
-        
+
         node_error AgoraVideoSourceSink::enableWebSdkInteroperability(bool enabled)
         {
             if (m_initialized){
@@ -251,6 +252,16 @@ namespace agora{
             SetParameterCmd cmd;
             strncpy(cmd.parameters, parameters, MAX_PARAMETER_LEN);
             m_ipcMsg->sendMessage(AGORA_IPC_SET_PARAMETER, (char*)&cmd, sizeof(cmd));
+        }
+
+        node_error AgoraVideoSourceSink::setLogFile(const char *path)
+        {
+            if (!path)
+                return node_invalid_args;
+            if (m_initialized){
+                return m_ipcMsg->sendMessage(AGORA_IPC_SET_LOG_FILE, (char*)path, strlen(path)) ? node_ok : node_generic_error;
+            }
+            return node_status_error;
         }
 
         void AgoraVideoSourceSink::msgThread()
@@ -293,7 +304,7 @@ namespace agora{
             }
             return node_status_error;
         }
-        
+
         node_error AgoraVideoSourceSink::setVideoSourceChannelProfile(agora::rtc::CHANNEL_PROFILE_TYPE profile)
         {
             if (m_initialized){
@@ -301,7 +312,7 @@ namespace agora{
             }
             return node_status_error;
         }
-        
+
         node_error AgoraVideoSourceSink::setVideoSourceVideoProfile(agora::rtc::VIDEO_PROFILE_TYPE profile, bool swapWidthAndHeight)
         {
             if (m_initialized){

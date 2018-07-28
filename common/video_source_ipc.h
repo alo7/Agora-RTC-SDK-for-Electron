@@ -68,7 +68,9 @@ enum AgoraIpcMsg
     /** Node ADDON ==> video source, to enable interoperability with the Agora Web SDK*/
     AGORA_IPC_ENABLE_WEB_SDK_INTEROPERABILITY,
     /** Node ADDON ==> video source, to set rtc parameters*/
-    AGORA_IPC_SET_PARAMETER
+    AGORA_IPC_SET_PARAMETER,
+    /** NODE ADDON ==> video source, to set log file*/
+    AGORA_IPC_SET_LOG_FILE
 };
 
 /**

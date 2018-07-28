@@ -136,6 +136,11 @@ namespace agora{
             * To set parameters for video source.
             */
             virtual void setParameters(const char* parameters) = 0;
+            
+            /**
+             * set video source's log file
+             */
+            virtual node_error setLogFile(const char* path) = 0;
         };
 
         /**

@@ -167,6 +167,7 @@ namespace agora {
 #endif
             NAPI_API(setLogFile);
             NAPI_API(setLogFilter);
+            NAPI_API(setLogFile2);
 
             NAPI_API(setLocalVideoMirrorMode);
             

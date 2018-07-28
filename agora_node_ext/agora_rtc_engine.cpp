@@ -104,6 +104,7 @@ void NodeRtcEngine::Init(Local<Object> &module)
   PROPERTY_METHOD_DEFINE(updateScreenCaptureRegion)
   PROPERTY_METHOD_DEFINE(updateScreenCaptureRegion2)
   PROPERTY_METHOD_DEFINE(setLogFile)
+  PROPERTY_METHOD_DEFINE(setLogFile2)
   PROPERTY_METHOD_DEFINE(setLogFilter)
   PROPERTY_METHOD_DEFINE(setLocalVideoMirrorMode)
   PROPERTY_METHOD_DEFINE(startRecordingService)
@@ -1346,6 +1347,26 @@ NAPI_API_DEFINE(NodeRtcEngine, videoSourceEnableWebSdkInteroperability)
 
     if (pEngine->m_videoSourceSink.get())
       pEngine->m_videoSourceSink->enableWebSdkInteroperability(enabled);
+    result = 0;
+  } while (false);
+  napi_set_int_result(args, result);
+  LOG_LEAVE;
+}
+
+NAPI_API_DEFINE(NodeRtcEngine, setLogFile2)
+{
+  LOG_ENTER;
+  int result = -1;
+  do
+  {
+    NodeRtcEngine *pEngine = nullptr;
+    napi_get_native_this(args, pEngine);
+    CHECK_NATIVE_THIS(pEngine);
+      nodestring path;
+    napi_status status = napi_get_value_nodestring_(args[0], path);
+    CHECK_NAPI_STATUS(status);
+    if (pEngine->m_videoSourceSink.get())
+      pEngine->m_videoSourceSink->setLogFile(path);
     result = 0;
   } while (false);
   napi_set_int_result(args, result);
