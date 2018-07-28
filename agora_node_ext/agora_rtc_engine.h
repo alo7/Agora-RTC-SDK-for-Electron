@@ -141,7 +141,6 @@ namespace agora {
             NAPI_API(startScreenCapture);
             NAPI_API(stopScreenCapture);
             NAPI_API(updateScreenCaptureRegion);
-            NAPI_API(updateScreenCaptureRegion2);
 #endif
             NAPI_API(setLogFile);
             NAPI_API(setLogFilter);
@@ -209,6 +208,7 @@ namespace agora {
             NAPI_API(videoSourceStopPreview);
             NAPI_API(videoSourceEnableWebSdkInteroperability);
             NAPI_API(videoSourceSetParameter);
+            NAPI_API(videoSourceUpdateScreenCaptureRegion);
 
             /*
             * Native interface used to setup local and remote video canvas.

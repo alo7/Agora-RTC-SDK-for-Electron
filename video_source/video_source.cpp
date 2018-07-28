@@ -289,6 +289,14 @@ void AgoraVideoSource::onMessage(unsigned int msg, char* payload, unsigned int l
         agora::rtc::AParameter rep(m_rtcEngine.get());
         rep->setParameters(cmd->parameters);
     }
+    else if(msg == AGORA_IPC_UPDATE_CAPTURE_SCREEN) {
+#if defined(_WIN32)
+        agora::rtc::RtcEngineParameters rep(m_rtcEngine.get());
+        rep.updateScreenCaptureRegion((const agora::rtc::Rect *)payload);
+#elif defined(__APPLE__)
+        m_rtcEngine->updateScreenCaptureRegion((const agora::rtc::Rect *)payload);
+#endif
+    }
     LOG_LEAVE;
 }
 
