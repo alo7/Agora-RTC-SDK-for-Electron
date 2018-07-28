@@ -17,6 +17,12 @@
 
 namespace agora{
     namespace rtc{
+
+#if defined(__APPLE__)
+		typedef unsigned int WindowIDType;
+#elif defined(_WIN32)
+		typedef HWND WindowIDType;
+#endif
         /**
          * Video source need join the same channel, this class used to monitor video source's event.
          * More event maybe needed in future.
@@ -94,7 +100,7 @@ namespace agora{
              * @param rect : the shared area
              * @param bitrate : bitrate of video
              */
-            virtual node_error captureScreen(agora::rtc::IRtcEngine::WindowIDType id, int captureFreq, agora::rtc::Rect* rect, int bitrate) = 0;
+            virtual node_error captureScreen(agora::rtc::WindowIDType id, int captureFreq, agora::rtc::Rect* rect, int bitrate) = 0;
 
             /**
              * To update shared window area
@@ -117,7 +123,7 @@ namespace agora{
              * To set video source channel profile
              * @param profile : video source's channel profile
              */
-            virtual node_error setVideoSourceChannelProfile(agora::rtc::CHANNEL_PROFILE_TYPE profile) = 0;
+            virtual node_error setVideoSourceChannelProfile(agora::rtc::CHANNEL_PROFILE_TYPE profile, const char* permissionKey) = 0;
 
             /**
              * To set video source's video profile
@@ -125,7 +131,7 @@ namespace agora{
              * @param swapWidthAndHeight : whether adjust width and height
              */
             virtual node_error setVideoSourceVideoProfile(agora::rtc::VIDEO_PROFILE_TYPE profile, bool swapWidthAndHeight) = 0;
-            
+
             /**
              * Enable interoperability with the Agora Web SDK.
              * @param enabled : whether interoperability with the Agora Web SDK is enabled
@@ -136,7 +142,7 @@ namespace agora{
             * To set parameters for video source.
             */
             virtual void setParameters(const char* parameters) = 0;
-            
+
             /**
              * set video source's log file
              */

@@ -2,7 +2,9 @@ build/
 node_modules/
 lib/
 .DS_Store
-.vscode/
 error-log.txt
 package-lock.json
 bin/
+.vscode
+peer.pid
+nohup.out

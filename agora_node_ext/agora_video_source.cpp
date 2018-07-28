@@ -39,6 +39,7 @@ namespace agora{
          * AgoraVideoSource implementation
          * agoraVideoSource starts two thread, one for message transform, and one for video data transform.
          */
+
         class AgoraVideoSourceSink : public AgoraVideoSource, public AgoraIpcListener
         {
         public:
@@ -52,10 +53,10 @@ namespace agora{
             virtual node_error leave() override;
             virtual node_error release() override;
             virtual node_error renewVideoSourceToken(const char* token) override;
-            virtual node_error setVideoSourceChannelProfile(agora::rtc::CHANNEL_PROFILE_TYPE profile) override;
+            virtual node_error setVideoSourceChannelProfile(agora::rtc::CHANNEL_PROFILE_TYPE profile, const char* permissionKey) override;
             virtual node_error setVideoSourceVideoProfile(agora::rtc::VIDEO_PROFILE_TYPE profile, bool swapWidthAndHeight) override;
             virtual void onMessage(unsigned int msg, char* payload, unsigned int len) override;
-            virtual node_error captureScreen(agora::rtc::IRtcEngine::WindowIDType id, int captureFreq, agora::rtc::Rect* rect, int bitrate) override;
+            virtual node_error captureScreen(agora::rtc::WindowIDType id, int captureFreq, agora::rtc::Rect* rect, int bitrate) override;
             virtual node_error updateScreenCapture(agora::rtc::Rect* rect) override;
             virtual node_error stopCaptureScreen() override;
             virtual node_error startPreview() override;
@@ -254,16 +255,6 @@ namespace agora{
             m_ipcMsg->sendMessage(AGORA_IPC_SET_PARAMETER, (char*)&cmd, sizeof(cmd));
         }
 
-        node_error AgoraVideoSourceSink::setLogFile(const char *path)
-        {
-            if (!path)
-                return node_invalid_args;
-            if (m_initialized){
-                return m_ipcMsg->sendMessage(AGORA_IPC_SET_LOG_FILE, (char*)path, strlen(path)) ? node_ok : node_generic_error;
-            }
-            return node_status_error;
-        }
-
         void AgoraVideoSourceSink::msgThread()
         {
             m_ipcMsg->run();
@@ -299,15 +290,21 @@ namespace agora{
         {
             if (!token)
                 return node_invalid_args;
-            if (m_initialized){
-                return m_ipcMsg->sendMessage(AOGRA_IPC_RENEW_TOKEN, (char*)token, strlen(token)) ? node_ok : node_generic_error;
+            if (m_initialized) {
+                return m_ipcMsg->sendMessage(AGORA_IPC_RENEW_TOKEN, (char*)token, strlen(token)) ? node_ok : node_generic_error;
             }
             return node_status_error;
         }
 
-        node_error AgoraVideoSourceSink::setVideoSourceChannelProfile(agora::rtc::CHANNEL_PROFILE_TYPE profile)
+        node_error AgoraVideoSourceSink::setVideoSourceChannelProfile(agora::rtc::CHANNEL_PROFILE_TYPE profile, const char* permissionKey)
         {
             if (m_initialized){
+                std::unique_ptr<ChannelProfileCmd> cmd(new ChannelProfileCmd());
+				cmd->profile = profile;
+#if defined(_WIN32)
+                if (permissionKey)
+                    strncpy(cmd->permissionKey, permissionKey, MAX_PERMISSION_KEY);
+#endif
                 return m_ipcMsg->sendMessage(AGORA_IPC_SET_CHANNEL_PROFILE, (char*)&profile, sizeof(profile)) ? node_ok : node_generic_error;
             }
             return node_status_error;
@@ -341,7 +338,7 @@ namespace agora{
                     m_eventHandler->onVideoSourceLeaveChannel();
                 }
             }
-            else if (msg == AOGRA_IPC_RENEW_TOKEN){
+            else if (msg == AGORA_IPC_RENEW_TOKEN){
                 if (m_eventHandler){
                     m_eventHandler->onVideoSourceRequestNewToken();
                 }
@@ -354,7 +351,7 @@ namespace agora{
             }
         }
 
-        node_error AgoraVideoSourceSink::captureScreen(agora::rtc::IRtcEngine::WindowIDType id, int captureFreq, agora::rtc::Rect* rect, int bitrate)
+        node_error AgoraVideoSourceSink::captureScreen(agora::rtc::WindowIDType id, int captureFreq, agora::rtc::Rect* rect, int bitrate)
         {
             if (m_initialized && m_peerJoined){
                 CaptureScreenCmd cmd;
