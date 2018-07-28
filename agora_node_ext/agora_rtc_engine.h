@@ -84,7 +84,7 @@ namespace agora {
             NAPI_API(complain);
             NAPI_API(setEncryptionSecret);
             NAPI_API(createDataStream);
-            NAPI_API(sendStreamMessage);       
+            NAPI_API(sendStreamMessage);
             NAPI_API(setEncryptionMode);
 #if 0
             NAPI_API(setVideoCompositingLayout);
@@ -144,10 +144,9 @@ namespace agora {
 #endif
             NAPI_API(setLogFile);
             NAPI_API(setLogFilter);
-            NAPI_API(setLogFile2);
 
             NAPI_API(setLocalVideoMirrorMode);
-            
+
             NAPI_API(startRecordingService);
             NAPI_API(stopRecordingService);
             NAPI_API(refreshRecordingServiceStatus);
@@ -209,6 +208,7 @@ namespace agora {
             NAPI_API(videoSourceEnableWebSdkInteroperability);
             NAPI_API(videoSourceSetParameter);
             NAPI_API(videoSourceUpdateScreenCaptureRegion);
+            NAPI_API(videoSourceSetLogFile);
 
             /*
             * Native interface used to setup local and remote video canvas.
@@ -455,7 +455,7 @@ typedef unsigned int uint32;
         } while (false);\
         LOG_LEAVE;\
     }
-        
+
 #define NAPI_API_DEFINE_WRAPPER_SET_PARAMETER_1(method, type) \
     NAPI_API_DEFINE(NodeRtcEngine, method) \
     {\

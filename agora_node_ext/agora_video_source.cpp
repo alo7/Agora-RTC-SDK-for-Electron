@@ -384,6 +384,16 @@ namespace agora{
             return node_status_error;
         }
 
+        node_error AgoraVideoSourceSink::setLogFile(const char *path)
+        {
+            if (!path)
+                return node_invalid_args;
+            if (m_initialized){
+                return m_ipcMsg->sendMessage(AGORA_IPC_SET_LOG_FILE, (char*)path, strlen(path)) ? node_ok : node_generic_error;
+            }
+            return node_status_error;
+        }
+
         void AgoraVideoSourceSink::deliverFrame(const char* payload , int len)
         {
             if (len > (int)m_backBuf.size())

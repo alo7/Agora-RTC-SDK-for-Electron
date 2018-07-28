@@ -147,6 +147,8 @@ namespace agora {
                 PROPERTY_METHOD_DEFINE(videoSourceEnableWebSdkInteroperability)
                 PROPERTY_METHOD_DEFINE(videoSourceSetParameter)
                 PROPERTY_METHOD_DEFINE(videoSourceUpdateScreenCaptureRegion)
+                PROPERTY_METHOD_DEFINE(videoSourceSetLogFile)
+
                 PROPERTY_METHOD_DEFINE(setBool);
                 PROPERTY_METHOD_DEFINE(setInt);
                 PROPERTY_METHOD_DEFINE(setUInt);
@@ -1096,7 +1098,7 @@ namespace agora {
             } while (false);
             LOG_LEAVE;
         }
-        
+
         NAPI_API_DEFINE(NodeRtcEngine, videoSourceUpdateScreenCaptureRegion)
         {
             LOG_ENTER;
@@ -1104,21 +1106,21 @@ namespace agora {
                 NodeRtcEngine *pEngine = nullptr;
                 napi_get_native_this(args, pEngine);
                 CHECK_NATIVE_THIS(pEngine);
-                
+
                 int top, left, bottom, right;
                 Local<Object> rect = args[0]->ToObject(args.GetIsolate());
                 Local<Name> topKey = String::NewFromUtf8(args.GetIsolate(), "top", NewStringType::kInternalized).ToLocalChecked();
                 Local<Value> topValue = rect->Get(args.GetIsolate()->GetCurrentContext(), topKey).ToLocalChecked();
                 top = topValue->Int32Value();
-                
+
                 Local<Name> leftKey = String::NewFromUtf8(args.GetIsolate(), "left", NewStringType::kInternalized).ToLocalChecked();
                 Local<Value> leftValue = rect->Get(args.GetIsolate()->GetCurrentContext(), leftKey).ToLocalChecked();
                 left = leftValue->Int32Value();
-                
+
                 Local<Name> bottomKey = String::NewFromUtf8(args.GetIsolate(), "bottom", NewStringType::kInternalized).ToLocalChecked();
                 Local<Value> bottomValue = rect->Get(args.GetIsolate()->GetCurrentContext(), bottomKey).ToLocalChecked();
                 bottom = bottomValue->Int32Value();
-                
+
                 Local<Name> rightKey = String::NewFromUtf8(args.GetIsolate(), "right", NewStringType::kInternalized).ToLocalChecked();
                 Local<Value> rightValue = rect->Get(args.GetIsolate()->GetCurrentContext(), rightKey).ToLocalChecked();
                 right = rightValue->Int32Value();
@@ -1129,6 +1131,25 @@ namespace agora {
             LOG_LEAVE;
         }
 
+        NAPI_API_DEFINE(NodeRtcEngine, videoSourceSetLogFile)
+        {
+          LOG_ENTER;
+          int result = -1;
+          do
+          {
+            NodeRtcEngine *pEngine = nullptr;
+            napi_get_native_this(args, pEngine);
+            CHECK_NATIVE_THIS(pEngine);
+              nodestring path;
+            napi_status status = napi_get_value_nodestring_(args[0], path);
+            CHECK_NAPI_STATUS(pEngine, status);
+            if (pEngine->m_videoSourceSink.get())
+              pEngine->m_videoSourceSink->setLogFile(path);
+            result = 0;
+          } while (false);
+          napi_set_int_result(args, result);
+          LOG_LEAVE;
+        }
 
         NAPI_API_DEFINE(NodeRtcEngine, leaveChannel)
         {

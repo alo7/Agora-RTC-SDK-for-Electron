@@ -215,7 +215,7 @@ protected:
 };
 
 /**
- * The class is used for IPC with large throughput. 
+ * The class is used for IPC with large throughput.
  * AgoraIpcDataSender provide send-only facilities.
  */
 #define DATA_DELIVER_BLOCK_SIZE 6145000

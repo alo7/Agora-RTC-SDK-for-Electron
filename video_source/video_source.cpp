@@ -297,6 +297,10 @@ void AgoraVideoSource::onMessage(unsigned int msg, char* payload, unsigned int l
         m_rtcEngine->updateScreenCaptureRegion((const agora::rtc::Rect *)payload);
 #endif
     }
+    else if(msg == AGORA_IPC_SET_LOG_FILE){
+        agora::rtc::RtcEngineParameters rep(m_rtcEngine.get());
+        rep.setLogFile(payload);
+    }
     LOG_LEAVE;
 }
 
